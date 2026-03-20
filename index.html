@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тепличный урожай — фермерские огурцы и томаты</title>
+  <meta name="description" content="Современный фермерский сайт для продажи огурцов, помидоров, зелени и сезонных наборов. Готов для GitHub Pages." />
+  <meta name="theme-color" content="#245c3a" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="cursor-cucumber" aria-hidden="true">
+    <span class="cursor-dot"></span>
+    <span class="cursor-body"></span>
+  </div>
+
+  <div class="cart-fab" id="cartFab" role="button" tabindex="0" aria-label="Открыть корзину">
+    <span>Корзина</span>
+    <strong id="cartCount">0</strong>
+  </div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-drawer__header">
+      <div>
+        <p class="eyebrow">Онлайн-заказ</p>
+        <h3>Ваша корзина</h3>
+      </div>
+      <button class="ghost-btn" id="closeCart" aria-label="Закрыть корзину">✕</button>
+    </div>
+    <div class="cart-drawer__body" id="cartItems"></div>
+    <div class="cart-drawer__footer">
+      <div class="cart-total">
+        <span>Итого</span>
+        <strong id="cartTotal">0 ₽</strong>
+      </div>
+      <button class="primary-btn full" id="fillOrder">Перенести в форму заказа</button>
+      <button class="secondary-btn full" id="clearCart">Очистить корзину</button>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <header class="site-header" id="top">
+    <div class="container nav-shell">
+      <a class="brand" href="#top">
+        <span class="brand__icon">🥒</span>
+        <span>
+          <strong>Тепличный урожай</strong>
+          <small>свежо, честно, красиво</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#story">Фотолента</a>
+        <a href="#process">Как выращиваем</a>
+        <a href="#order">Заказать</a>
+      </nav>
+      <a class="nav-cta" href="#order">Оставить заявку</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">семейное фермерское хозяйство</p>
+          <h1>Огурцы, томаты и зелень <span>прямо с грядки</span></h1>
+          <p class="hero-text">
+            Свежие огурцы, томаты, зелень и сезонные овощи, выращенные с вниманием к качеству.
+            Мы показываем настоящее хозяйство, честный процесс и аккуратную упаковку, чтобы вы знали,
+            откуда приходит ваш заказ.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#catalog">Смотреть каталог</a>
+            <a class="secondary-btn" href="#story">История урожая</a>
+          </div>
+
+          <div class="hero-badges">
+            <div class="badge floating" data-parallax="0.06">
+              <span>🌿</span>
+              <strong>Без складского хранения</strong>
+              <small>сбор и отправка в короткий цикл</small>
+            </div>
+            <div class="badge floating" data-parallax="0.1">
+              <span>☀️</span>
+              <strong>Теплица + открытый грунт</strong>
+              <small>сезонные культуры круглый год</small>
+            </div>
+            <div class="badge floating" data-parallax="0.08">
+              <span>🚜</span>
+              <strong>Настоящие фото хозяйства</strong>
+              <small>не сток, а живая история бренда</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-blob blob-1" data-parallax="0.12"></div>
+          <div class="hero-blob blob-2" data-parallax="0.07"></div>
+          <div class="hero-card hero-card--main" data-parallax="0.04">
+            <img src="assets/images/hero-basket.jpg" alt="Фермер с корзиной свежих овощей" />
+          </div>
+          <div class="hero-card hero-card--side" data-parallax="0.12">
+            <img src="assets/images/tractor.jpg" alt="Фермер за рулём трактора" />
+          </div>
+          <div class="hero-stat glass">
+            <span>7+ культур</span>
+            <strong>свежая поставка каждую неделю</strong>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">
+        <span>Листайте вниз</span>
+        <div class="vine-track"><i id="scrollCucumber">🥒</i></div>
+      </div>
+    </section>
+
+    <section class="trust section">
+      <div class="container trust-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">почему выбирают нас</p>
+          <h2>Свежесть, которую видно сразу</h2>
+        </div>
+        <div class="trust-cards">
+          <article class="trust-card reveal">
+            <h3>Свежий сбор</h3>
+            <p>Овощи собираются в короткий цикл и быстро попадают в заказ, поэтому сохраняют вкус, плотность и натуральный аромат.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Аккуратная упаковка</h3>
+            <p>Каждый заказ сортируется вручную и упаковывается так, чтобы овощи приехали чистыми, красивыми и готовыми к кухне.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Честный подход</h3>
+            <p>На сайте — реальные фотографии хозяйства, теплицы и урожая. Вы видите не абстрактную витрину, а живое производство.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog section" id="catalog">
+      <div class="container">
+        <div class="section-heading reveal row-between">
+          <div>
+            <p class="eyebrow">каталог продукции</p>
+            <h2>Свежая фермерская продукция</h2>
+          </div>
+          <div class="catalog-filters" id="filters"></div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="story section" id="story">
+      <div class="container story-grid">
+        <div class="story-copy sticky reveal">
+          <p class="eyebrow">фотолента сезона</p>
+          <h2>Живой дневник хозяйства</h2>
+          <p>
+            Здесь собраны реальные кадры из теплицы и с поля: сбор урожая, полив, упаковка и повседневная работа.
+            Нам важно, чтобы покупатель видел не только красивые овощи, но и заботу, с которой они выращиваются.
+          </p>
+          <ul class="feature-list">
+            <li>Свежий урожай, собранный в естественный сезон</li>
+            <li>Уход за растениями каждый день без спешки и потока</li>
+            <li>Упаковка, в которой приятно получать заказ домой</li>
+          </ul>
+        </div>
+        <div class="photo-wall">
+          <figure class="photo-card tall reveal"><img src="assets/images/harvest-pick.jpg" alt="Сбор томатов на грядке" /><figcaption>Сбор спелых томатов утром</figcaption></figure>
+          <figure class="photo-card reveal"><img src="assets/images/watering.jpg" alt="Полив растений на грядке" /><figcaption>Ручной полив и ежедневный уход</figcaption></figure>
+          <figure class="photo-card reveal"><img src="assets/images/hat-fork.jpg" alt="Фермер в соломенной шляпе с вилами" /><figcaption>Теплый человеческий образ бренда</figcaption></figure>
+          <figure class="photo-card wide reveal"><img src="assets/images/packing.jpg" alt="Упаковка свежих овощей в деревянные ящики" /><figcaption>Упаковка заказов и сезонные боксы</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="process section" id="process">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">как мы выращиваем</p>
+          <h2>Путь от семечки до коробки</h2>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-step reveal">
+            <span>01</span>
+            <h3>Посадка и контроль теплицы</h3>
+            <p>Старт сезона начинается с аккуратной подготовки грунта и контроля микроклимата, чтобы овощи были ровными и плотными.</p>
+          </article>
+          <article class="process-step reveal">
+            <span>02</span>
+            <h3>Полив и ручной уход</h3>
+            <p>Показываем на сайте честный процесс: полив, уход за растениями и ежедневный контроль качества без визуального шума.</p>
+          </article>
+          <article class="process-step reveal">
+            <span>03</span>
+            <h3>Сборка урожая</h3>
+            <p>Съемка на грядке усиливает ощущение свежести. Это отлично работает в hero-блоках, stories и карточках сезонных наборов.</p>
+          </article>
+          <article class="process-step reveal">
+            <span>04</span>
+            <h3>Упаковка и доставка</h3>
+            <p>Отдельный блок с аккуратной упаковкой повышает доверие: пользователю понятно, что он получит красивый и чистый заказ.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="planner section">
+      <div class="container planner-grid">
+        <div class="planner-copy reveal">
+          <p class="eyebrow">умная фишка</p>
+          <h2>Подбор корзины недели</h2>
+          <p>
+            Необычный интерактивный блок: посетитель двигает ползунок и сразу видит,
+            какая корзина подойдёт для семьи на 1–6 человек.
+          </p>
+          <div class="range-wrap">
+            <label for="familyRange">Сколько человек в семье?</label>
+            <input type="range" min="1" max="6" value="3" id="familyRange" />
+          </div>
+        </div>
+        <div class="planner-card reveal">
+          <div class="planner-top">
+            <span class="planner-chip">Персональная рекомендация</span>
+            <strong id="familyCount">3 человека</strong>
+          </div>
+          <h3 id="boxName">Семейная корзина</h3>
+          <p id="boxDescription">Идеально для кухни на несколько дней: огурцы, томаты, зелень и сезонные овощи.</p>
+          <ul id="boxList" class="planner-list"></ul>
+          <div class="planner-price" id="boxPrice">1 550 ₽</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews section">
+      <div class="container reviews-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">отзывы покупателей</p>
+          <h2>Нас рекомендуют за вкус и аккуратность</h2>
+        </div>
+        <div class="review-cards">
+          <article class="review-card reveal">
+            <p>«Огурцы всегда хрустящие, томаты сладкие, а зелень приезжает свежей. Очень приятно, что видно настоящее хозяйство и реальный уход.»</p>
+            <strong>Елена, постоянный покупатель</strong>
+          </article>
+          <article class="review-card reveal">
+            <p>«Заказываем семейную корзину почти каждую неделю. Всё аккуратно упаковано, удобно разобрано, и овощи действительно выглядят как только что с грядки.»</p>
+            <strong>Марина, заказ для семьи</strong>
+          </article>
+          <article class="review-card reveal">
+            <p>«Очень нравится, что можно сразу выбрать овощи, собрать корзину и оставить заявку. Всё понятно, красиво и по-домашнему честно.»</p>
+            <strong>Андрей, заказ к выходным</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq section">
+      <div class="container faq-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">faq</p>
+          <h2>Частые вопросы покупателей</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item reveal" open>
+            <summary>Когда лучше оформлять заказ?</summary>
+            <p>Лучше всего оформлять заказ за день до доставки. Так мы успеваем собрать свежий урожай и аккуратно подготовить ваш набор.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Что входит в сезонные корзины?</summary>
+            <p>Состав зависит от сезона, но обычно это огурцы, томаты, зелень, сладкий перец и другие овощи, которые сейчас в лучшей форме.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Можно ли заказать только часть позиций?</summary>
+            <p>Да. Вы можете выбрать как готовую корзину, так и отдельные позиции из каталога, а затем указать пожелания в комментарии к заказу.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="order section" id="order">
+      <div class="container order-grid">
+        <div class="order-copy reveal">
+          <p class="eyebrow">форма заявки</p>
+          <h2>Оставьте заказ</h2>
+          <p>
+            Выберите овощи в каталоге, добавьте их в корзину и оставьте контакты.
+            Мы свяжемся с вами, уточним состав заказа и удобное время доставки.
+          </p>
+          <img class="order-photo" src="assets/images/packing.jpg" alt="Упаковка овощей в ящики" />
+        </div>
+
+        <form class="order-form reveal" id="orderForm">
+          <label>
+            Ваше имя
+            <input type="text" id="customerName" placeholder="Например, Алина" required />
+          </label>
+          <label>
+            Телефон или Telegram
+            <input type="text" id="customerContact" placeholder="+7 / @username" required />
+          </label>
+          <label>
+            Адрес или район доставки
+            <input type="text" id="customerAddress" placeholder="Куда привезти заказ" />
+          </label>
+          <label>
+            Комментарий к заказу
+            <textarea id="customerNote" rows="5" placeholder="Удобное время доставки, пожелания, объём"></textarea>
+          </label>
+          <label>
+            Состав заказа
+            <textarea id="orderSummary" rows="8" placeholder="Сюда можно перенести товары из корзины"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">Сформировать письмо</button>
+            <button type="button" class="secondary-btn" id="copyOrder">Скопировать текст заявки</button>
+          </div>
+          <p class="form-note">После отправки заявки мы свяжемся с вами для подтверждения заказа.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Тепличный урожай</strong>
+        <p>Свежие овощи, выращенные с заботой: огурцы, томаты, зелень и сезонные наборы для дома и семьи.</p>
+      </div>
+      <div>
+        <p><strong>Наши преимущества:</strong></p>
+        <ul>
+          <li>Свежий сбор урожая</li>
+          <li>Аккуратная упаковка</li>
+          <li>Удобный заказ на сайте</li>
+          <li>Честные фото хозяйства</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Для заказа:</strong></p>
+        <ul>
+          <li>Оставьте заявку через форму</li>
+          <li>Выберите позиции в каталоге</li>
+          <li>Укажите контакт и адрес</li>
+          <li>Дождитесь подтверждения</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
