@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Тепличный урожай — фермерские огурцы и томаты</title>
+  <meta name="description" content="Современный фермерский сайт для продажи огурцов, помидоров, зелени и сезонных наборов. Готов для GitHub Pages." />
+  <meta name="theme-color" content="#245c3a" />
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="cursor-cucumber" aria-hidden="true">
+    <span class="cursor-dot"></span>
+    <span class="cursor-body"></span>
+  </div>
+
+  <div class="cart-fab" id="cartFab" role="button" tabindex="0" aria-label="Открыть корзину">
+    <span>Корзина</span>
+    <strong id="cartCount">0</strong>
+  </div>
+
+  <aside class="cart-drawer" id="cartDrawer" aria-hidden="true">
+    <div class="cart-drawer__header">
+      <div>
+        <p class="eyebrow">Онлайн-заказ</p>
+        <h3>Ваша корзина</h3>
+      </div>
+      <button class="ghost-btn" id="closeCart" aria-label="Закрыть корзину">✕</button>
+    </div>
+    <div class="cart-drawer__body" id="cartItems"></div>
+    <div class="cart-drawer__footer">
+      <div class="cart-total">
+        <span>Итого</span>
+        <strong id="cartTotal">0 ₽</strong>
+      </div>
+      <button class="primary-btn full" id="fillOrder">Перенести в форму заказа</button>
+      <button class="secondary-btn full" id="clearCart">Очистить корзину</button>
+    </div>
+  </aside>
+  <div class="backdrop" id="backdrop"></div>
+
+  <header class="site-header" id="top">
+    <div class="container nav-shell">
+      <a class="brand" href="#top">
+        <span class="brand__icon">🥒</span>
+        <span>
+          <strong>Тепличный урожай</strong>
+          <small>свежо, честно, красиво</small>
+        </span>
+      </a>
+      <nav class="nav">
+        <a href="#catalog">Каталог</a>
+        <a href="#story">Фотолента</a>
+        <a href="#process">Как выращиваем</a>
+        <a href="#order">Заказать</a>
+      </nav>
+      <a class="nav-cta" href="#order">Оставить заявку</a>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section">
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <p class="eyebrow">фермерский сайт для GitHub Pages</p>
+          <h1>Огурцы, томаты и зелень <span>прямо с грядки</span></h1>
+          <p class="hero-text">
+            Современный лендинг-магазин с атмосферой живого фермерского хозяйства:
+            мягкая премиальная палитра, скролл-эффекты, локальная корзина, фотолента сезона
+            и фирменный указатель в виде огурчика.
+          </p>
+
+          <div class="hero-actions">
+            <a class="primary-btn" href="#catalog">Смотреть каталог</a>
+            <a class="secondary-btn" href="#story">История урожая</a>
+          </div>
+
+          <div class="hero-badges">
+            <div class="badge floating" data-parallax="0.06">
+              <span>🌿</span>
+              <strong>Без складского хранения</strong>
+              <small>сбор и отправка в короткий цикл</small>
+            </div>
+            <div class="badge floating" data-parallax="0.1">
+              <span>☀️</span>
+              <strong>Теплица + открытый грунт</strong>
+              <small>сезонные культуры круглый год</small>
+            </div>
+            <div class="badge floating" data-parallax="0.08">
+              <span>🚜</span>
+              <strong>Настоящие фото хозяйства</strong>
+              <small>не сток, а живая история бренда</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero-visual reveal">
+          <div class="hero-blob blob-1" data-parallax="0.12"></div>
+          <div class="hero-blob blob-2" data-parallax="0.07"></div>
+          <div class="hero-card hero-card--main" data-parallax="0.04">
+            <img src="assets/images/hero-basket.jpg" alt="Фермер с корзиной свежих овощей" />
+          </div>
+          <div class="hero-card hero-card--side" data-parallax="0.12">
+            <img src="assets/images/tractor.jpg" alt="Фермер за рулём трактора" />
+          </div>
+          <div class="hero-stat glass">
+            <span>7+ культур</span>
+            <strong>свежая поставка каждую неделю</strong>
+          </div>
+        </div>
+      </div>
+      <div class="hero-scroll-hint">
+        <span>Листайте вниз</span>
+        <div class="vine-track"><i id="scrollCucumber">🥒</i></div>
+      </div>
+    </section>
+
+    <section class="trust section">
+      <div class="container trust-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">идея оформления</p>
+          <h2>Визуальная концепция сайта</h2>
+        </div>
+        <div class="trust-cards">
+          <article class="trust-card reveal">
+            <h3>Тональность</h3>
+            <p>Не «рынок и дача», а современный farm-to-table бренд: теплый свет, кремовые фоны, зелёные акценты, живые фото и аккуратные glass-карточки.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Интерфейс</h3>
+            <p>Одностраничный сайт с плавным скроллом, каталогом, корзиной, историей сезона, FAQ и формой заказа. Всё адаптировано под телефон.</p>
+          </article>
+          <article class="trust-card reveal">
+            <h3>Необычные фишки</h3>
+            <p>Курсор-огурчик, индикатор прокрутки в форме лозы, параллакс карточек, динамические подборки корзин и анимации появления блоков.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="catalog section" id="catalog">
+      <div class="container">
+        <div class="section-heading reveal row-between">
+          <div>
+            <p class="eyebrow">каталог продукции</p>
+            <h2>Свежая фермерская продукция</h2>
+          </div>
+          <div class="catalog-filters" id="filters"></div>
+        </div>
+        <div class="product-grid" id="productGrid"></div>
+      </div>
+    </section>
+
+    <section class="story section" id="story">
+      <div class="container story-grid">
+        <div class="story-copy sticky reveal">
+          <p class="eyebrow">фотолента сезона</p>
+          <h2>Сайт должен продавать не только овощи, но и доверие</h2>
+          <p>
+            Здесь собраны реальные кадры: сбор урожая, полив, упаковка, работа в теплице и в поле.
+            Такой блок усиливает бренд сильнее, чем любые абстрактные баннеры. Покупатель видит лицо хозяйства,
+            процесс и аккуратность упаковки.
+          </p>
+          <ul class="feature-list">
+            <li>Большие живые фотографии с мягким зумом при скролле</li>
+            <li>Карточки с подписями и атмосферой фермерского дневника</li>
+            <li>Мозаика, которая отлично смотрится и на десктопе, и на телефоне</li>
+          </ul>
+        </div>
+        <div class="photo-wall">
+          <figure class="photo-card tall reveal"><img src="assets/images/harvest-pick.jpg" alt="Сбор томатов на грядке" /><figcaption>Сбор спелых томатов утром</figcaption></figure>
+          <figure class="photo-card reveal"><img src="assets/images/watering.jpg" alt="Полив растений на грядке" /><figcaption>Ручной полив и ежедневный уход</figcaption></figure>
+          <figure class="photo-card reveal"><img src="assets/images/hat-fork.jpg" alt="Фермер в соломенной шляпе с вилами" /><figcaption>Теплый человеческий образ бренда</figcaption></figure>
+          <figure class="photo-card wide reveal"><img src="assets/images/packing.jpg" alt="Упаковка свежих овощей в деревянные ящики" /><figcaption>Упаковка заказов и сезонные боксы</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="process section" id="process">
+      <div class="container">
+        <div class="section-heading reveal">
+          <p class="eyebrow">как мы выращиваем</p>
+          <h2>Путь от семечки до коробки</h2>
+        </div>
+
+        <div class="process-grid">
+          <article class="process-step reveal">
+            <span>01</span>
+            <h3>Посадка и контроль теплицы</h3>
+            <p>Старт сезона начинается с аккуратной подготовки грунта и контроля микроклимата, чтобы овощи были ровными и плотными.</p>
+          </article>
+          <article class="process-step reveal">
+            <span>02</span>
+            <h3>Полив и ручной уход</h3>
+            <p>Показываем на сайте честный процесс: полив, уход за растениями и ежедневный контроль качества без визуального шума.</p>
+          </article>
+          <article class="process-step reveal">
+            <span>03</span>
+            <h3>Сборка урожая</h3>
+            <p>Съемка на грядке усиливает ощущение свежести. Это отлично работает в hero-блоках, stories и карточках сезонных наборов.</p>
+          </article>
+          <article class="process-step reveal">
+            <span>04</span>
+            <h3>Упаковка и доставка</h3>
+            <p>Отдельный блок с аккуратной упаковкой повышает доверие: пользователю понятно, что он получит красивый и чистый заказ.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="planner section">
+      <div class="container planner-grid">
+        <div class="planner-copy reveal">
+          <p class="eyebrow">умная фишка</p>
+          <h2>Подбор корзины недели</h2>
+          <p>
+            Необычный интерактивный блок: посетитель двигает ползунок и сразу видит,
+            какая корзина подойдёт для семьи на 1–6 человек.
+          </p>
+          <div class="range-wrap">
+            <label for="familyRange">Сколько человек в семье?</label>
+            <input type="range" min="1" max="6" value="3" id="familyRange" />
+          </div>
+        </div>
+        <div class="planner-card reveal">
+          <div class="planner-top">
+            <span class="planner-chip">Персональная рекомендация</span>
+            <strong id="familyCount">3 человека</strong>
+          </div>
+          <h3 id="boxName">Семейная корзина</h3>
+          <p id="boxDescription">Идеально для кухни на несколько дней: огурцы, томаты, зелень и сезонные овощи.</p>
+          <ul id="boxList" class="planner-list"></ul>
+          <div class="planner-price" id="boxPrice">1 550 ₽</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="reviews section">
+      <div class="container reviews-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">социальное доверие</p>
+          <h2>Что ещё стоит добавить на сайт</h2>
+        </div>
+        <div class="review-cards">
+          <article class="review-card reveal">
+            <p>«Отличная идея — показывать не только товар, но и процесс. Фото из теплицы сразу делают бренд живым и запоминающимся.»</p>
+            <strong>Блок: история хозяйства</strong>
+          </article>
+          <article class="review-card reveal">
+            <p>«Сезонный таймер, набор недели и локальная корзина превращают сайт из визитки в рабочий инструмент продаж.»</p>
+            <strong>Блок: продажи и конверсия</strong>
+          </article>
+          <article class="review-card reveal">
+            <p>«Курсор-огурчик и мягкий параллакс — как раз тот необычный акцент, который делает сайт модным, но не перегруженным.»</p>
+            <strong>Блок: wow-эффект</strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="faq section">
+      <div class="container faq-grid">
+        <div class="section-heading reveal">
+          <p class="eyebrow">faq</p>
+          <h2>Частые вопросы покупателей</h2>
+        </div>
+        <div class="faq-list">
+          <details class="faq-item reveal" open>
+            <summary>Можно ли принимать заказы через этот сайт?</summary>
+            <p>Да. Сейчас сайт работает как статичный лендинг для GitHub Pages, но уже включает корзину и форму. Дальше можно подключить Telegram, WhatsApp, email или полноценную CMS.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Подходит ли он для телефона?</summary>
+            <p>Да. Верстка адаптивная: крупные кнопки, карточки перестраиваются в одну колонку, а все скролл-эффекты остаются плавными.</p>
+          </details>
+          <details class="faq-item reveal">
+            <summary>Можно ли заменить тексты и цены?</summary>
+            <p>Да. Весь каталог лежит в одном JS-файле, а тексты — в обычной HTML-разметке, поэтому сайт легко поддерживать даже без сложного фреймворка.</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <section class="order section" id="order">
+      <div class="container order-grid">
+        <div class="order-copy reveal">
+          <p class="eyebrow">форма заявки</p>
+          <h2>Оставьте заказ</h2>
+          <p>
+            Форма собирает заказ из корзины и формирует готовое письмо. В GitHub Pages это удобный компромисс:
+            сайт остаётся статичным, но выглядит как полноценный современный магазин.
+          </p>
+          <img class="order-photo" src="assets/images/packing.jpg" alt="Упаковка овощей в ящики" />
+        </div>
+
+        <form class="order-form reveal" id="orderForm">
+          <label>
+            Ваше имя
+            <input type="text" id="customerName" placeholder="Например, Алина" required />
+          </label>
+          <label>
+            Телефон или Telegram
+            <input type="text" id="customerContact" placeholder="+7 / @username" required />
+          </label>
+          <label>
+            Адрес или район доставки
+            <input type="text" id="customerAddress" placeholder="Куда привезти заказ" />
+          </label>
+          <label>
+            Комментарий к заказу
+            <textarea id="customerNote" rows="5" placeholder="Удобное время доставки, пожелания, объём"></textarea>
+          </label>
+          <label>
+            Состав заказа
+            <textarea id="orderSummary" rows="8" placeholder="Сюда можно перенести товары из корзины"></textarea>
+          </label>
+
+          <div class="form-actions">
+            <button type="submit" class="primary-btn">Сформировать письмо</button>
+            <button type="button" class="secondary-btn" id="copyOrder">Скопировать текст заявки</button>
+          </div>
+          <p class="form-note">В файле <code>script.js</code> можно заменить email получателя на ваш настоящий адрес.</p>
+        </form>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div>
+        <strong>Тепличный урожай</strong>
+        <p>Фермерский лендинг с каталогом, корзиной и живыми фотографиями для быстрой публикации на GitHub Pages.</p>
+      </div>
+      <div>
+        <p><strong>Что уже встроено:</strong></p>
+        <ul>
+          <li>Адаптивная верстка</li>
+          <li>Плавные анимации при скролле</li>
+          <li>Каталог с фильтрами</li>
+          <li>Курсор-огурчик</li>
+        </ul>
+      </div>
+      <div>
+        <p><strong>Дальше можно добавить:</strong></p>
+        <ul>
+          <li>Онлайн-оплату</li>
+          <li>Интеграцию с Telegram</li>
+          <li>Настоящую CRM-форму</li>
+          <li>Карту доставки</li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
