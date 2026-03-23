@@ -1,5 +1,3 @@
-const contactEmail = 'yaroslava.palkina@yandex.ru';
-
 const products = [
   {
     id: 'cucumber-premium',
@@ -470,33 +468,31 @@ async function submitOrderForm(event) {
     orderSummary.value = buildOrderSummary();
   }
 
-  const endpoint = orderForm.getAttribute('action') || '';
-  if (!endpoint || !endpoint.includes('web3forms.com')) {
-    setFormStatus('У формы не настроен Web3Forms endpoint.', 'error');
-    return;
-  }
-
-  const formData = new FormData(orderForm);
+    const formData = new FormData(orderForm);
   formData.set('subject', 'Новый заказ с сайта Тепличный урожай');
   formData.set('order', orderSummary.value.trim() || buildOrderSummary() || '—');
+  formData.set('message', buildRequestText());
+
+  const payload = Object.fromEntries(formData.entries());
 
   submitOrder.disabled = true;
   submitOrder.textContent = 'Отправляем...';
   setFormStatus('Отправляем заявку...', 'pending');
 
   try {
-    const response = await fetch(endpoint, {
+    const response = await fetch('https://api.web3forms.com/submit', {
       method: 'POST',
-      body: formData,
       headers: {
+        'Content-Type': 'application/json',
         Accept: 'application/json'
-      }
+      },
+      body: JSON.stringify(payload)
     });
 
-    const payload = await response.json().catch(() => ({}));
+    const result = await response.json().catch(() => ({}));
 
-    if (response.ok) {
-      setFormStatus('Заявка отправлена. Скоро свяжемся с вами для подтверждения заказа.', 'success');
+    if (response.ok && result.success) {
+      setFormStatus('Заявка отправлена. Проверьте почту получателя через 1–2 минуты.', 'success');
       orderForm.reset();
       orderSummary.value = '';
       clearCartState();
@@ -504,11 +500,7 @@ async function submitOrderForm(event) {
       return;
     }
 
-    const errors = Array.isArray(payload?.errors)
-      ? payload.errors.map((item) => item.message).filter(Boolean)
-      : [];
-
-    setFormStatus(errors[0] || 'Не удалось отправить заявку. Проверьте подключение Web3Forms и попробуйте ещё раз.', 'error');
+    setFormStatus(result.message || 'Не удалось отправить заявку. Попробуйте ещё раз.', 'error');
   } catch (error) {
     setFormStatus('Ошибка сети. Проверьте подключение и попробуйте ещё раз.', 'error');
   } finally {
