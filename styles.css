@@ -1130,3 +1130,27 @@ input[type='range'] {
     bottom: 14px;
   }
 }
+
+
+.botcheck {
+  display: none !important;
+}
+
+.form-status {
+  min-height: 1.4em;
+  margin-top: 0.35rem;
+  font-weight: 600;
+  color: #5a685d;
+}
+
+.form-status.is-pending {
+  color: #6d6a36;
+}
+
+.form-status.is-success {
+  color: #245c3a;
+}
+
+.form-status.is-error {
+  color: #a33b3b;
+}
