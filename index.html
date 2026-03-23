@@ -296,11 +296,11 @@
         </div>
 
         <form class="order-form reveal" id="orderForm" action="https://api.web3forms.com/submit" method="POST">
-          <input type="hidden" name="access_key" value="c7ab40a8-48b4-4c55-883b-942a46b4b216" />
-          <input type="hidden" name="from_name" value="Тепличный урожай" />
-          <input type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" style="display:none;" />
+          <input type="hidden" name="access_key" value="9a50f274-35e6-46b4-806f-139985e07c92" />
           <input type="hidden" name="subject" value="Новый заказ с сайта Тепличный урожай" />
+          <input type="hidden" name="from_name" value="Тепличный урожай" />
           <input type="hidden" name="site" value="Тепличный урожай" />
+          <input type="checkbox" name="botcheck" class="botcheck" tabindex="-1" autocomplete="off" />
           <label>
             Ваше имя
             <input type="text" id="customerName" name="name" placeholder="Например, Алина" required />
@@ -331,7 +331,7 @@
             <button type="button" class="secondary-btn" id="copyOrder">Скопировать текст заявки</button>
           </div>
           <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
-          <p class="form-note">Заявка отправляется прямо из формы на <strong>yaroslava.palkina@yandex.ru</strong>. Если письмо не пришло сразу, проверьте папку «Спам» или подождите 1–2 минуты.</p>
+          <p class="form-note">Форма подключена к Web3Forms. После отправки заявка уйдёт на Gmail, привязанный к этому ключу.</p>
         </form>
       </div>
     </section>
