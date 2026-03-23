@@ -411,10 +411,25 @@ p {
 
 .vine-track {
   position: relative;
-  width: 6px;
+  width: 16px;
   height: 140px;
+  padding: 0;
+  border: 0;
   border-radius: 999px;
   background: linear-gradient(180deg, rgba(44, 122, 75, 0.1), rgba(44, 122, 75, 0.35));
+  box-shadow: inset 0 0 0 1px rgba(44, 122, 75, 0.08);
+  appearance: none;
+  cursor: pointer;
+  touch-action: none;
+}
+
+.vine-track:hover {
+  background: linear-gradient(180deg, rgba(44, 122, 75, 0.14), rgba(44, 122, 75, 0.42));
+}
+
+.vine-track:focus-visible {
+  outline: 3px solid rgba(44, 122, 75, 0.18);
+  outline-offset: 6px;
 }
 
 .vine-track i {
