@@ -1,4 +1,4 @@
-const contactEmail = 'hello@fresh-harvest.local'; // замените на ваш email
+const contactEmail = 'yaroslava.palkina@yandex.ru';
 
 const products = [
   {
@@ -119,6 +119,7 @@ const clearCart = document.getElementById('clearCart');
 const fillOrder = document.getElementById('fillOrder');
 const orderSummary = document.getElementById('orderSummary');
 const scrollCucumber = document.getElementById('scrollCucumber');
+const vineTrack = document.getElementById('vineTrack');
 const familyRange = document.getElementById('familyRange');
 const familyCount = document.getElementById('familyCount');
 const boxName = document.getElementById('boxName');
@@ -282,11 +283,78 @@ function setPlanner(value) {
   boxList.innerHTML = preset.items.map((item) => `<li>${item}</li>`).join('');
 }
 
-function updateScrollCucumber() {
+function clamp(value, min, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+function getScrollProgress() {
   const scrollable = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = scrollable > 0 ? window.scrollY / scrollable : 0;
-  const maxOffset = 112;
+  return scrollable > 0 ? window.scrollY / scrollable : 0;
+}
+
+function scrollPageToProgress(progress, smooth = false) {
+  const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+  const safeProgress = clamp(progress, 0, 1);
+  window.scrollTo({
+    top: safeProgress * scrollable,
+    behavior: smooth ? 'smooth' : 'auto'
+  });
+}
+
+function updateScrollCucumber() {
+  if (!vineTrack || !scrollCucumber) return;
+  const progress = getScrollProgress();
+  const maxOffset = Math.max(vineTrack.clientHeight - scrollCucumber.offsetHeight, 0);
   scrollCucumber.style.transform = `translate(-50%, ${progress * maxOffset}px)`;
+}
+
+function getProgressFromTrackEvent(event) {
+  const rect = vineTrack.getBoundingClientRect();
+  const offset = event.clientY - rect.top - scrollCucumber.offsetHeight / 2;
+  const maxOffset = Math.max(rect.height - scrollCucumber.offsetHeight, 1);
+  return clamp(offset / maxOffset, 0, 1);
+}
+
+function initScrollVine() {
+  if (!vineTrack || !scrollCucumber) return;
+
+  let dragging = false;
+
+  const handlePointerMove = (event) => {
+    if (!dragging) return;
+    scrollPageToProgress(getProgressFromTrackEvent(event));
+  };
+
+  vineTrack.addEventListener('click', (event) => {
+    scrollPageToProgress(getProgressFromTrackEvent(event), true);
+  });
+
+  vineTrack.addEventListener('pointerdown', (event) => {
+    dragging = true;
+    vineTrack.setPointerCapture?.(event.pointerId);
+    scrollPageToProgress(getProgressFromTrackEvent(event));
+    event.preventDefault();
+  });
+
+  vineTrack.addEventListener('pointermove', handlePointerMove);
+  vineTrack.addEventListener('pointerup', (event) => {
+    dragging = false;
+    vineTrack.releasePointerCapture?.(event.pointerId);
+  });
+  vineTrack.addEventListener('pointercancel', () => {
+    dragging = false;
+  });
+
+  vineTrack.addEventListener('keydown', (event) => {
+    if (event.key === 'ArrowDown' || event.key === 'PageDown') {
+      event.preventDefault();
+      scrollPageToProgress(getScrollProgress() + 0.08, true);
+    }
+    if (event.key === 'ArrowUp' || event.key === 'PageUp') {
+      event.preventDefault();
+      scrollPageToProgress(getScrollProgress() - 0.08, true);
+    }
+  });
 }
 
 function initReveal() {
@@ -402,5 +470,6 @@ document.addEventListener('DOMContentLoaded', () => {
   initReveal();
   initParallax();
   initCursor();
+  initScrollVine();
   updateScrollCucumber();
 });
