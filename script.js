@@ -128,6 +128,8 @@ const boxList = document.getElementById('boxList');
 const boxPrice = document.getElementById('boxPrice');
 const copyOrder = document.getElementById('copyOrder');
 const orderForm = document.getElementById('orderForm');
+const formStatus = document.getElementById('formStatus');
+const submitOrder = document.getElementById('submitOrder');
 
 function formatPrice(value) {
   return `${new Intl.NumberFormat('ru-RU').format(value)} ₽`;
@@ -419,12 +421,14 @@ backdrop.addEventListener('click', closeCartDrawer);
 clearCart.addEventListener('click', clearCartState);
 fillOrder.addEventListener('click', () => {
   orderSummary.value = buildOrderSummary();
+  setFormStatus('');
   closeCartDrawer();
   document.getElementById('order').scrollIntoView({ behavior: 'smooth' });
 });
 
 familyRange.addEventListener('input', (event) => setPlanner(event.target.value));
 copyOrder.addEventListener('click', async () => {
+  setFormStatus('');
   const payload = buildRequestText();
   try {
     await navigator.clipboard.writeText(payload);
@@ -439,6 +443,7 @@ function buildRequestText() {
   return [
     `Имя: ${document.getElementById('customerName').value || '—'}`,
     `Контакт: ${document.getElementById('customerContact').value || '—'}`,
+    `Email: ${document.getElementById('customerEmail')?.value || '—'}`,
     `Адрес: ${document.getElementById('customerAddress').value || '—'}`,
     '',
     'Заказ:',
@@ -449,15 +454,70 @@ function buildRequestText() {
   ].join('\n');
 }
 
-orderForm.addEventListener('submit', (event) => {
+function setFormStatus(message, tone = '') {
+  if (!formStatus) return;
+  formStatus.textContent = message;
+  formStatus.className = 'form-status';
+  if (tone) {
+    formStatus.classList.add(`is-${tone}`);
+  }
+}
+
+async function submitOrderForm(event) {
   event.preventDefault();
+
   if (!orderSummary.value.trim()) {
     orderSummary.value = buildOrderSummary();
   }
-  const body = encodeURIComponent(buildRequestText());
-  const subject = encodeURIComponent('Новый заказ с сайта Тепличный урожай');
-  window.location.href = `mailto:${contactEmail}?subject=${subject}&body=${body}`;
-});
+
+  const endpoint = orderForm.getAttribute('action') || '';
+  if (!endpoint || !endpoint.includes('web3forms.com')) {
+    setFormStatus('У формы не настроен Web3Forms endpoint.', 'error');
+    return;
+  }
+
+  const formData = new FormData(orderForm);
+  formData.set('subject', 'Новый заказ с сайта Тепличный урожай');
+  formData.set('order', orderSummary.value.trim() || buildOrderSummary() || '—');
+
+  submitOrder.disabled = true;
+  submitOrder.textContent = 'Отправляем...';
+  setFormStatus('Отправляем заявку...', 'pending');
+
+  try {
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        Accept: 'application/json'
+      }
+    });
+
+    const payload = await response.json().catch(() => ({}));
+
+    if (response.ok) {
+      setFormStatus('Заявка отправлена. Скоро свяжемся с вами для подтверждения заказа.', 'success');
+      orderForm.reset();
+      orderSummary.value = '';
+      clearCartState();
+      setPlanner(familyRange.value);
+      return;
+    }
+
+    const errors = Array.isArray(payload?.errors)
+      ? payload.errors.map((item) => item.message).filter(Boolean)
+      : [];
+
+    setFormStatus(errors[0] || 'Не удалось отправить заявку. Проверьте подключение Web3Forms и попробуйте ещё раз.', 'error');
+  } catch (error) {
+    setFormStatus('Ошибка сети. Проверьте подключение и попробуйте ещё раз.', 'error');
+  } finally {
+    submitOrder.disabled = false;
+    submitOrder.textContent = 'Отправить заявку';
+  }
+}
+
+orderForm.addEventListener('submit', submitOrderForm);
 
 window.addEventListener('scroll', updateScrollCucumber, { passive: true });
 window.addEventListener('resize', updateScrollCucumber);
